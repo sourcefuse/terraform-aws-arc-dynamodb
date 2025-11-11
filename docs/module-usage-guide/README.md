@@ -478,19 +478,27 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb_throttle" {
 }
 ```
 
-## Support and Contributing
-
-- **Documentation**: [Terraform AWS Provider - DynamoDB](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table)
-- **Issues**: Report issues on [GitHub](https://github.com/sourcefuse/terraform-aws-arc-dynamodb/issues)
-- **Contributing**: See [CONTRIBUTING.md](../../CONTRIBUTING.md)
-- **License**: This module is licensed under Apache 2.0. See [LICENSE](../../LICENSE)
-
 ## Additional Resources
 
 - [DynamoDB Best Practices](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html)
 - [DynamoDB Pricing](https://aws.amazon.com/dynamodb/pricing/)
-- [Terraform DynamoDB Examples](https://github.com/hashicorp/terraform-provider-aws/tree/main/examples)
 
----
+## Contributing and Community Support
 
-For more information about SourceFuse and our other Terraform modules, visit our [GitHub organization](https://github.com/sourcefuse).
+### Contributing Guidelines
+
+Contribute to the module by following the guidelines outlined in the [CONTRIBUTING.md](../../CONTRIBUTING.md) file.
+
+### Reporting Bugs and Issues
+
+If you find a bug or issue, report it on the [GitHub repository](https://github.com/sourcefuse/terraform-aws-arc-network-firewall/issues).
+
+## License
+
+### License Information
+
+This module is licensed under the Apache 2.0 license. Refer to the [LICENSE](../../LICENSE) file for more details.
+
+### Open Source Contribution
+
+Contribute to open source by using and enhancing this module. Your contributions are welcome!
