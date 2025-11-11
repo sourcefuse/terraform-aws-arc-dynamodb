@@ -1,3 +1,5 @@
+![Module Logo](./static/terraform-aws-arc-dynamodb.png)
+
 # Terraform AWS Arc DynamoDB Module
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/sourcefuse/terraform-aws-arc-dynamodb)
@@ -5,10 +7,6 @@
 ![GitHub](https://img.shields.io/github/license/sourcefuse/terraform-aws-arc-dynamodb)
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=sourcefuse_terraform-aws-arc-dynamodb&token=15abaa99afec2eb3d56c7793f74ab85043345289)](https://sonarcloud.io/summary/new_code?id=sourcefuse_terraform-aws-arc-dynamodb)
 [![snyk](https://github.com/sourcefuse/terraform-aws-arc-dynamodb/actions/workflows/snyk.yaml/badge.svg)](https://github.com/sourcefuse/terraform-aws-arc-dynamodb/actions/workflows/snyk.yaml)
-
-
-![Module Logo](./static/terraform-aws-arc-dynamodb.png)
-
 
 ## Overview
 
