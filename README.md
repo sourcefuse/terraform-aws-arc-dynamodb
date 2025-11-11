@@ -202,6 +202,63 @@ module "dynamodb_table" {
   }
 }
 ```
+### Global Tables (Pay-per-Request) Example
+
+```hcl
+module "dynamodb_table" {
+  source = "sourcefuse/arc-dynamodb/aws"
+
+  table_name   = "serverless-app-table"
+  billing_mode = "PAY_PER_REQUEST"
+  table_class  = "STANDARD_INFREQUENT_ACCESS"
+  hash_key     = "pk"
+  range_key    = "sk"
+
+  attributes = [
+    {
+      name = "pk"
+      type = "S"
+    },
+    {
+      name = "sk"
+      type = "S"
+    },
+    {
+      name = "gsi1pk"
+      type = "S"
+    }
+  ]
+
+  global_secondary_indexes = [
+    {
+      name            = "GSI1"
+      hash_key        = "gsi1pk"
+      projection_type = "ALL"
+    }
+  ]
+
+  stream_enabled   = true
+  stream_view_type = "NEW_AND_OLD_IMAGES"
+
+  ttl_enabled        = true
+  ttl_attribute_name = "expires_at"
+
+  server_side_encryption_enabled = true
+  point_in_time_recovery_enabled = true
+
+  # Global Tables (Multi-region replication) - Works with PAY_PER_REQUEST
+  replica_regions = [
+    {
+      region_name = "us-east-2"
+    }
+  ]
+
+  tags = {
+    BillingMode = "serverless"
+    CostCenter  = "engineering"
+  }
+}
+```
 
 ## Examples
 
