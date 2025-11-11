@@ -13,7 +13,7 @@ This example demonstrates a comprehensive DynamoDB table configuration with all 
 - CloudWatch Contributor Insights
 - Deletion protection
 
-**Note:** Global Tables are commented out due to AWS limitations with provisioned capacity and autoscaling. For Global Tables functionality, see the serverless example which uses PAY_PER_REQUEST billing mode.
+**Note:** Global Tables are commented out due to AWS limitations with provisioned capacity and autoscaling. For Global Tables functionality, see the global-tables example which uses PAY_PER_REQUEST billing mode.
 
 ## Usage
 
