@@ -489,7 +489,7 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb_throttle" {
 
 - [DynamoDB Best Practices](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html)
 - [DynamoDB Pricing](https://aws.amazon.com/dynamodb/pricing/)
-- [Terraform DynamoDB Examples](https://github.com/hashicorp/terraform-provider-aws/tree/main/examples/dynamodb)
+- [Terraform DynamoDB Examples](https://github.com/hashicorp/terraform-provider-aws/tree/main/examples)
 
 ---
 
