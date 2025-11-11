@@ -65,10 +65,7 @@ module "dynamodb_table" {
   # Global Tables (Multi-region replication) - Works with PAY_PER_REQUEST
   replica_regions = [
     {
-      region_name = "us-west-2"
-    },
-    {
-      region_name = "eu-west-1"
+      region_name = "us-east-2"
     }
   ]
 
