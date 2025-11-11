@@ -1,5 +1,5 @@
 ################################################################################
-# Serverless Example - DynamoDB table with pay-per-request billing
+# Global Table Example - DynamoDB table with pay-per-request billing
 ################################################################################
 
 provider "aws" {
@@ -61,6 +61,13 @@ module "dynamodb_table" {
 
   # Table Class (Standard-IA for infrequent access)
   table_class = "STANDARD_INFREQUENT_ACCESS"
+
+  # Global Tables (Multi-region replication) - Works with PAY_PER_REQUEST
+  replica_regions = [
+    {
+      region_name = "us-east-2"
+    }
+  ]
 
   # Tags
   tags = var.tags
