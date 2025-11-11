@@ -62,6 +62,16 @@ module "dynamodb_table" {
   # Table Class (Standard-IA for infrequent access)
   table_class = "STANDARD_INFREQUENT_ACCESS"
 
+  # Global Tables (Multi-region replication) - Works with PAY_PER_REQUEST
+  replica_regions = [
+    {
+      region_name = "us-west-2"
+    },
+    {
+      region_name = "eu-west-1"
+    }
+  ]
+
   # Tags
   tags = var.tags
 }

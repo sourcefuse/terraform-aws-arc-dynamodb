@@ -3,7 +3,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/sourcefuse/terraform-aws-arc-dynamodb)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/sourcefuse/terraform-aws-arc-dynamodb)
 ![GitHub](https://img.shields.io/github/license/sourcefuse/terraform-aws-arc-dynamodb)
-[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=sourcefuse_terraform-aws-arc-dynamodb)](https://sonarcloud.io/summary/new_code?id=sourcefuse_terraform-aws-arc-dynamodb)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=sourcefuse_terraform-aws-arc-dynamodb&token=15abaa99afec2eb3d56c7793f74ab85043345289)](https://sonarcloud.io/summary/new_code?id=sourcefuse_terraform-aws-arc-dynamodb)
 [![snyk](https://github.com/sourcefuse/terraform-aws-arc-dynamodb/actions/workflows/snyk.yaml/badge.svg)](https://github.com/sourcefuse/terraform-aws-arc-dynamodb/actions/workflows/snyk.yaml)
 
 <!-- Uncomment when logo is added
@@ -129,7 +129,7 @@ module "dynamodb_table" {
 
   # Encryption
   server_side_encryption_enabled    = true
-  server_side_encryption_kms_key_id = "alias/dynamodb-key"
+  server_side_encryption_kms_key_arn = "alias/dynamodb-key"
 
   # Backup and Recovery
   point_in_time_recovery_enabled = true
@@ -252,7 +252,6 @@ No modules.
 | <a name="input_autoscaling_read"></a> [autoscaling\_read](#input\_autoscaling\_read) | A map of read autoscaling settings | <pre>object({<br/>    scale_in_cooldown  = optional(number, 60)<br/>    scale_out_cooldown = optional(number, 60)<br/>    target_value       = optional(number, 70)<br/>    max_capacity       = number<br/>    min_capacity       = optional(number, 1)<br/>  })</pre> | `null` | no |
 | <a name="input_autoscaling_write"></a> [autoscaling\_write](#input\_autoscaling\_write) | A map of write autoscaling settings | <pre>object({<br/>    scale_in_cooldown  = optional(number, 60)<br/>    scale_out_cooldown = optional(number, 60)<br/>    target_value       = optional(number, 70)<br/>    max_capacity       = number<br/>    min_capacity       = optional(number, 1)<br/>  })</pre> | `null` | no |
 | <a name="input_billing_mode"></a> [billing\_mode](#input\_billing\_mode) | Controls how you are charged for read and write throughput and how you manage capacity. The valid values are PROVISIONED and PAY\_PER\_REQUEST | `string` | `"PAY_PER_REQUEST"` | no |
-| <a name="input_create_table"></a> [create\_table](#input\_create\_table) | Controls if DynamoDB table should be created | `bool` | `true` | no |
 | <a name="input_deletion_protection_enabled"></a> [deletion\_protection\_enabled](#input\_deletion\_protection\_enabled) | Enables deletion protection for table | `bool` | `false` | no |
 | <a name="input_global_secondary_indexes"></a> [global\_secondary\_indexes](#input\_global\_secondary\_indexes) | Describe a GSI for the table | <pre>list(object({<br/>    name               = string<br/>    hash_key           = string<br/>    range_key          = optional(string)<br/>    write_capacity     = optional(number)<br/>    read_capacity      = optional(number)<br/>    projection_type    = optional(string, "ALL")<br/>    non_key_attributes = optional(list(string), [])<br/>  }))</pre> | `[]` | no |
 | <a name="input_gsi_autoscaling_read"></a> [gsi\_autoscaling\_read](#input\_gsi\_autoscaling\_read) | A map of read autoscaling settings for GSI | <pre>map(object({<br/>    scale_in_cooldown  = optional(number, 60)<br/>    scale_out_cooldown = optional(number, 60)<br/>    target_value       = optional(number, 70)<br/>    max_capacity       = number<br/>    min_capacity       = optional(number, 1)<br/>  }))</pre> | `{}` | no |
@@ -264,9 +263,9 @@ No modules.
 | <a name="input_point_in_time_recovery_enabled"></a> [point\_in\_time\_recovery\_enabled](#input\_point\_in\_time\_recovery\_enabled) | Whether to enable point-in-time recovery | `bool` | `true` | no |
 | <a name="input_range_key"></a> [range\_key](#input\_range\_key) | The attribute to use as the range (sort) key. Must also be defined as an attribute | `string` | `null` | no |
 | <a name="input_read_capacity"></a> [read\_capacity](#input\_read\_capacity) | The number of read units for this table. If the billing\_mode is PROVISIONED, this field is required | `number` | `null` | no |
-| <a name="input_replica_regions"></a> [replica\_regions](#input\_replica\_regions) | List of regions to create replicas in for Global Tables V2 | <pre>list(object({<br/>    region_name                    = string<br/>    kms_key_id                     = optional(string)<br/>    propagate_tags                 = optional(bool, true)<br/>    point_in_time_recovery_enabled = optional(bool, true)<br/>    table_class                    = optional(string)<br/>  }))</pre> | `[]` | no |
+| <a name="input_replica_regions"></a> [replica\_regions](#input\_replica\_regions) | List of regions to create replicas in for Global Tables V2 | <pre>list(object({<br/>    region_name                    = string<br/>    kms_key_arn                    = optional(string)<br/>    propagate_tags                 = optional(bool, true)<br/>    point_in_time_recovery_enabled = optional(bool, true)<br/>    table_class                    = optional(string)<br/>  }))</pre> | `[]` | no |
 | <a name="input_server_side_encryption_enabled"></a> [server\_side\_encryption\_enabled](#input\_server\_side\_encryption\_enabled) | Whether to enable server-side encryption | `bool` | `true` | no |
-| <a name="input_server_side_encryption_kms_key_id"></a> [server\_side\_encryption\_kms\_key\_id](#input\_server\_side\_encryption\_kms\_key\_id) | The ARN of the CMK that should be used for the AWS KMS encryption. This attribute should only be specified if the key is different from the default DynamoDB CMK, alias/aws/dynamodb. | `string` | `null` | no |
+| <a name="input_server_side_encryption_kms_key_arn"></a> [server\_side\_encryption\_kms\_key\_arn](#input\_server\_side\_encryption\_kms\_key\_arn) | The ARN of the CMK that should be used for the AWS KMS encryption. This attribute should only be specified if the key is different from the default DynamoDB CMK, alias/aws/dynamodb. | `string` | `null` | no |
 | <a name="input_stream_enabled"></a> [stream\_enabled](#input\_stream\_enabled) | Indicates whether Streams are to be enabled (true) or disabled (false) | `bool` | `false` | no |
 | <a name="input_stream_view_type"></a> [stream\_view\_type](#input\_stream\_view\_type) | When an item in the table is modified, StreamViewType determines what information is written to the table's stream | `string` | `"NEW_AND_OLD_IMAGES"` | no |
 | <a name="input_table_class"></a> [table\_class](#input\_table\_class) | Storage class of the table. Valid values are STANDARD and STANDARD\_INFREQUENT\_ACCESS | `string` | `"STANDARD"` | no |

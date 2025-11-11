@@ -269,7 +269,7 @@ variable "server_side_encryption_enabled" {
   default     = true
 }
 
-variable "server_side_encryption_kms_key_id" {
+variable "server_side_encryption_kms_key_arn" {
   description = "The ARN of the CMK that should be used for the AWS KMS encryption. This attribute should only be specified if the key is different from the default DynamoDB CMK, alias/aws/dynamodb."
   type        = string
   default     = null
@@ -309,7 +309,7 @@ variable "replica_regions" {
   description = "List of regions to create replicas in for Global Tables V2"
   type = list(object({
     region_name                    = string
-    kms_key_id                     = optional(string)
+    kms_key_arn                    = optional(string)
     propagate_tags                 = optional(bool, true)
     point_in_time_recovery_enabled = optional(bool, true)
     table_class                    = optional(string)
@@ -359,14 +359,4 @@ variable "tags" {
   description = "A map of tags to assign to the resource"
   type        = map(string)
   default     = {}
-}
-
-#################################################################################
-# Module Control Variables
-#################################################################################
-
-variable "create_table" {
-  description = "Controls if DynamoDB table should be created"
-  type        = bool
-  default     = true
 }

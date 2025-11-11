@@ -70,7 +70,7 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | The ARN of the CMK that should be used for the AWS KMS encryption | `string` | `null` | no |
+| <a name="input_kms_key_arn"></a> [kms\_key\_arn](#input\_kms\_key\_arn) | The ARN of the CMK that should be used for the AWS KMS encryption | `string` | `null` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS region | `string` | `"us-east-1"` | no |
 | <a name="input_table_name"></a> [table\_name](#input\_table\_name) | Name of the DynamoDB table | `string` | `"complete-example-table"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to assign to the resource | `map(string)` | <pre>{<br/>  "Environment": "example",<br/>  "Module": "terraform-aws-arc-dynamodb",<br/>  "Terraform": "true"<br/>}</pre> | no |

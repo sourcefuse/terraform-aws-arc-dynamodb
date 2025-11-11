@@ -3,8 +3,6 @@
 #################################################################################
 
 resource "aws_dynamodb_table" "this" {
-  count = var.create_table ? 1 : 0
-
   name             = var.table_name
   billing_mode     = var.billing_mode
   hash_key         = var.hash_key
@@ -60,15 +58,12 @@ resource "aws_dynamodb_table" "this" {
     for_each = var.server_side_encryption_enabled ? [1] : []
     content {
       enabled     = true
-      kms_key_arn = var.server_side_encryption_kms_key_id
+      kms_key_arn = var.server_side_encryption_kms_key_arn
     }
   }
 
-  dynamic "point_in_time_recovery" {
-    for_each = [1]
-    content {
-      enabled = var.point_in_time_recovery_enabled
-    }
+  point_in_time_recovery {
+    enabled = var.point_in_time_recovery_enabled
   }
 
   dynamic "replica" {
@@ -113,13 +108,13 @@ resource "aws_dynamodb_table" "this" {
 #################################################################################
 
 resource "aws_dynamodb_contributor_insights" "table" {
-  count      = var.create_table && var.table_contributor_insights_enabled ? 1 : 0
-  table_name = aws_dynamodb_table.this[0].name
+  count      = var.table_contributor_insights_enabled ? 1 : 0
+  table_name = aws_dynamodb_table.this.name
 }
 
 resource "aws_dynamodb_contributor_insights" "gsi" {
-  for_each   = var.create_table ? var.gsi_contributor_insights_enabled : {}
-  table_name = aws_dynamodb_table.this[0].name
+  for_each   = var.gsi_contributor_insights_enabled
+  table_name = aws_dynamodb_table.this.name
   index_name = each.key
 }
 
@@ -128,16 +123,16 @@ resource "aws_dynamodb_contributor_insights" "gsi" {
 #################################################################################
 
 resource "aws_appautoscaling_target" "table_read" {
-  count              = var.create_table && var.autoscaling_enabled && var.autoscaling_read != null && var.billing_mode == "PROVISIONED" ? 1 : 0
+  count              = var.autoscaling_enabled && var.autoscaling_read != null && var.billing_mode == "PROVISIONED" ? 1 : 0
   max_capacity       = var.autoscaling_read.max_capacity
   min_capacity       = var.autoscaling_read.min_capacity
-  resource_id        = "table/${aws_dynamodb_table.this[0].name}"
+  resource_id        = "table/${aws_dynamodb_table.this.name}"
   scalable_dimension = "dynamodb:table:ReadCapacityUnits"
   service_namespace  = "dynamodb"
 }
 
 resource "aws_appautoscaling_policy" "table_read" {
-  count              = var.create_table && var.autoscaling_enabled && var.autoscaling_read != null && var.billing_mode == "PROVISIONED" ? 1 : 0
+  count              = var.autoscaling_enabled && var.autoscaling_read != null && var.billing_mode == "PROVISIONED" ? 1 : 0
   name               = "DynamoDBReadCapacityUtilization:${aws_appautoscaling_target.table_read[0].resource_id}"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.table_read[0].resource_id
@@ -155,16 +150,16 @@ resource "aws_appautoscaling_policy" "table_read" {
 }
 
 resource "aws_appautoscaling_target" "table_write" {
-  count              = var.create_table && var.autoscaling_enabled && var.autoscaling_write != null && var.billing_mode == "PROVISIONED" ? 1 : 0
+  count              = var.autoscaling_enabled && var.autoscaling_write != null && var.billing_mode == "PROVISIONED" ? 1 : 0
   max_capacity       = var.autoscaling_write.max_capacity
   min_capacity       = var.autoscaling_write.min_capacity
-  resource_id        = "table/${aws_dynamodb_table.this[0].name}"
+  resource_id        = "table/${aws_dynamodb_table.this.name}"
   scalable_dimension = "dynamodb:table:WriteCapacityUnits"
   service_namespace  = "dynamodb"
 }
 
 resource "aws_appautoscaling_policy" "table_write" {
-  count              = var.create_table && var.autoscaling_enabled && var.autoscaling_write != null && var.billing_mode == "PROVISIONED" ? 1 : 0
+  count              = var.autoscaling_enabled && var.autoscaling_write != null && var.billing_mode == "PROVISIONED" ? 1 : 0
   name               = "DynamoDBWriteCapacityUtilization:${aws_appautoscaling_target.table_write[0].resource_id}"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.table_write[0].resource_id
@@ -186,10 +181,10 @@ resource "aws_appautoscaling_policy" "table_write" {
 #################################################################################
 
 resource "aws_appautoscaling_target" "gsi_read" {
-  for_each           = var.create_table && var.autoscaling_enabled && var.billing_mode == "PROVISIONED" ? var.gsi_autoscaling_read : {}
+  for_each           = var.autoscaling_enabled && var.billing_mode == "PROVISIONED" ? var.gsi_autoscaling_read : {}
   max_capacity       = each.value.max_capacity
   min_capacity       = each.value.min_capacity
-  resource_id        = "table/${aws_dynamodb_table.this[0].name}/index/${each.key}"
+  resource_id        = "table/${aws_dynamodb_table.this.name}/index/${each.key}"
   scalable_dimension = "dynamodb:index:ReadCapacityUnits"
   service_namespace  = "dynamodb"
 
@@ -197,7 +192,7 @@ resource "aws_appautoscaling_target" "gsi_read" {
 }
 
 resource "aws_appautoscaling_policy" "gsi_read" {
-  for_each           = var.create_table && var.autoscaling_enabled && var.billing_mode == "PROVISIONED" ? var.gsi_autoscaling_read : {}
+  for_each           = var.autoscaling_enabled && var.billing_mode == "PROVISIONED" ? var.gsi_autoscaling_read : {}
   name               = "DynamoDBReadCapacityUtilization:${aws_appautoscaling_target.gsi_read[each.key].resource_id}"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.gsi_read[each.key].resource_id
@@ -215,10 +210,10 @@ resource "aws_appautoscaling_policy" "gsi_read" {
 }
 
 resource "aws_appautoscaling_target" "gsi_write" {
-  for_each           = var.create_table && var.autoscaling_enabled && var.billing_mode == "PROVISIONED" ? var.gsi_autoscaling_write : {}
+  for_each           = var.autoscaling_enabled && var.billing_mode == "PROVISIONED" ? var.gsi_autoscaling_write : {}
   max_capacity       = each.value.max_capacity
   min_capacity       = each.value.min_capacity
-  resource_id        = "table/${aws_dynamodb_table.this[0].name}/index/${each.key}"
+  resource_id        = "table/${aws_dynamodb_table.this.name}/index/${each.key}"
   scalable_dimension = "dynamodb:index:WriteCapacityUnits"
   service_namespace  = "dynamodb"
 
@@ -226,7 +221,7 @@ resource "aws_appautoscaling_target" "gsi_write" {
 }
 
 resource "aws_appautoscaling_policy" "gsi_write" {
-  for_each           = var.create_table && var.autoscaling_enabled && var.billing_mode == "PROVISIONED" ? var.gsi_autoscaling_write : {}
+  for_each           = var.autoscaling_enabled && var.billing_mode == "PROVISIONED" ? var.gsi_autoscaling_write : {}
   name               = "DynamoDBWriteCapacityUtilization:${aws_appautoscaling_target.gsi_write[each.key].resource_id}"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.gsi_write[each.key].resource_id

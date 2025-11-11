@@ -10,7 +10,7 @@ variable "table_name" {
   default     = "complete-example-table"
 }
 
-variable "kms_key_id" {
+variable "kms_key_arn" {
   description = "The ARN of the CMK that should be used for the AWS KMS encryption"
   type        = string
   default     = null

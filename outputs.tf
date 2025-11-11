@@ -4,47 +4,47 @@
 
 output "dynamodb_table_arn" {
   description = "ARN of the DynamoDB table"
-  value       = try(aws_dynamodb_table.this[0].arn, null)
+  value       = try(aws_dynamodb_table.this.arn, null)
 }
 
 output "dynamodb_table_id" {
   description = "ID of the DynamoDB table"
-  value       = try(aws_dynamodb_table.this[0].id, null)
+  value       = try(aws_dynamodb_table.this.id, null)
 }
 
 output "dynamodb_table_name" {
   description = "Name of the DynamoDB table"
-  value       = try(aws_dynamodb_table.this[0].name, null)
+  value       = try(aws_dynamodb_table.this.name, null)
 }
 
 output "dynamodb_table_billing_mode" {
   description = "Billing mode of the DynamoDB table"
-  value       = try(aws_dynamodb_table.this[0].billing_mode, null)
+  value       = try(aws_dynamodb_table.this.billing_mode, null)
 }
 
 output "dynamodb_table_hash_key" {
   description = "Hash key of the DynamoDB table"
-  value       = try(aws_dynamodb_table.this[0].hash_key, null)
+  value       = try(aws_dynamodb_table.this.hash_key, null)
 }
 
 output "dynamodb_table_range_key" {
   description = "Range key of the DynamoDB table"
-  value       = try(aws_dynamodb_table.this[0].range_key, null)
+  value       = try(aws_dynamodb_table.this.range_key, null)
 }
 
 output "dynamodb_table_read_capacity" {
   description = "Read capacity of the DynamoDB table"
-  value       = try(aws_dynamodb_table.this[0].read_capacity, null)
+  value       = try(aws_dynamodb_table.this.read_capacity, null)
 }
 
 output "dynamodb_table_write_capacity" {
   description = "Write capacity of the DynamoDB table"
-  value       = try(aws_dynamodb_table.this[0].write_capacity, null)
+  value       = try(aws_dynamodb_table.this.write_capacity, null)
 }
 
 output "dynamodb_table_table_class" {
   description = "Storage class of the DynamoDB table"
-  value       = try(aws_dynamodb_table.this[0].table_class, null)
+  value       = try(aws_dynamodb_table.this.table_class, null)
 }
 
 #################################################################################
@@ -53,17 +53,17 @@ output "dynamodb_table_table_class" {
 
 output "dynamodb_table_stream_arn" {
   description = "ARN of the DynamoDB table stream"
-  value       = try(aws_dynamodb_table.this[0].stream_arn, null)
+  value       = try(aws_dynamodb_table.this.stream_arn, null)
 }
 
 output "dynamodb_table_stream_label" {
   description = "Timestamp, in ISO 8601 format, for this stream"
-  value       = try(aws_dynamodb_table.this[0].stream_label, null)
+  value       = try(aws_dynamodb_table.this.stream_label, null)
 }
 
 output "dynamodb_table_stream_view_type" {
   description = "When an item in the table is modified, StreamViewType determines what information is written to the table's stream"
-  value       = try(aws_dynamodb_table.this[0].stream_view_type, null)
+  value       = try(aws_dynamodb_table.this.stream_view_type, null)
 }
 
 #################################################################################
@@ -73,7 +73,7 @@ output "dynamodb_table_stream_view_type" {
 output "dynamodb_table_global_secondary_indexes" {
   description = "List of global secondary indexes and their attributes"
   value = try([
-    for gsi in aws_dynamodb_table.this[0].global_secondary_index : {
+    for gsi in aws_dynamodb_table.this.global_secondary_index : {
       name            = gsi.name
       hash_key        = gsi.hash_key
       range_key       = gsi.range_key
@@ -86,7 +86,7 @@ output "dynamodb_table_global_secondary_indexes" {
 
 output "dynamodb_table_global_secondary_index_names" {
   description = "List of global secondary index names"
-  value       = try([for gsi in aws_dynamodb_table.this[0].global_secondary_index : gsi.name], [])
+  value       = try([for gsi in aws_dynamodb_table.this.global_secondary_index : gsi.name], [])
 }
 
 #################################################################################
@@ -96,7 +96,7 @@ output "dynamodb_table_global_secondary_index_names" {
 output "dynamodb_table_local_secondary_indexes" {
   description = "List of local secondary indexes and their attributes"
   value = try([
-    for lsi in aws_dynamodb_table.this[0].local_secondary_index : {
+    for lsi in aws_dynamodb_table.this.local_secondary_index : {
       name            = lsi.name
       range_key       = lsi.range_key
       projection_type = lsi.projection_type
@@ -106,7 +106,7 @@ output "dynamodb_table_local_secondary_indexes" {
 
 output "dynamodb_table_local_secondary_index_names" {
   description = "List of local secondary index names"
-  value       = try([for lsi in aws_dynamodb_table.this[0].local_secondary_index : lsi.name], [])
+  value       = try([for lsi in aws_dynamodb_table.this.local_secondary_index : lsi.name], [])
 }
 
 #################################################################################
@@ -116,7 +116,7 @@ output "dynamodb_table_local_secondary_index_names" {
 output "dynamodb_table_attributes" {
   description = "List of table attributes"
   value = try([
-    for attr in aws_dynamodb_table.this[0].attribute : {
+    for attr in aws_dynamodb_table.this.attribute : {
       name = attr.name
       type = attr.type
     }
@@ -130,8 +130,8 @@ output "dynamodb_table_attributes" {
 output "dynamodb_table_ttl" {
   description = "TTL configuration of the DynamoDB table"
   value = try({
-    enabled        = aws_dynamodb_table.this[0].ttl[0].enabled
-    attribute_name = aws_dynamodb_table.this[0].ttl[0].attribute_name
+    enabled        = aws_dynamodb_table.this.ttl[0].enabled
+    attribute_name = aws_dynamodb_table.this.ttl[0].attribute_name
   }, null)
 }
 
@@ -142,7 +142,7 @@ output "dynamodb_table_ttl" {
 output "dynamodb_table_server_side_encryption" {
   description = "Server side encryption configuration of the DynamoDB table"
   value = try({
-    enabled = aws_dynamodb_table.this[0].server_side_encryption[0].enabled
+    enabled = aws_dynamodb_table.this.server_side_encryption[0].enabled
   }, null)
 }
 
@@ -153,7 +153,7 @@ output "dynamodb_table_server_side_encryption" {
 output "dynamodb_table_point_in_time_recovery" {
   description = "Point in time recovery configuration of the DynamoDB table"
   value = try({
-    enabled = aws_dynamodb_table.this[0].point_in_time_recovery[0].enabled
+    enabled = aws_dynamodb_table.this.point_in_time_recovery[0].enabled
   }, null)
 }
 
@@ -164,9 +164,9 @@ output "dynamodb_table_point_in_time_recovery" {
 output "dynamodb_table_replicas" {
   description = "List of replicas of the DynamoDB table"
   value = try([
-    for replica in aws_dynamodb_table.this[0].replica : {
+    for replica in aws_dynamodb_table.this.replica : {
       region_name                    = replica.region_name
-      kms_key_id                     = replica.kms_key_id
+      kms_key_arn                    = replica.kms_key_arn
       point_in_time_recovery_enabled = replica.point_in_time_recovery_enabled
       propagate_tags                 = replica.propagate_tags
     }
@@ -179,7 +179,7 @@ output "dynamodb_table_replicas" {
 
 output "dynamodb_table_tags" {
   description = "Tags of the DynamoDB table"
-  value       = try(aws_dynamodb_table.this[0].tags_all, {})
+  value       = try(aws_dynamodb_table.this.tags_all, {})
 }
 
 #################################################################################

@@ -125,8 +125,8 @@ module "dynamodb_table" {
   ttl_attribute_name = "expires"
 
   # Encryption
-  server_side_encryption_enabled    = true
-  server_side_encryption_kms_key_id = var.kms_key_id
+  server_side_encryption_enabled     = true
+  server_side_encryption_kms_key_arn = var.kms_key_arn
 
   # Point-in-time Recovery
   point_in_time_recovery_enabled = true
